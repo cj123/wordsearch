@@ -42,7 +42,13 @@ func main() {
 		ws := WordSearch{}
 
 		for i := 0; i < numWords; i++ {
-			ws.Words[i] = r.URL.Query().Get(fmt.Sprintf("Word_%d", i))
+			word := strings.Replace(strings.TrimSpace(r.URL.Query().Get(fmt.Sprintf("Word_%d", i))), " ", "", -1)
+
+			if len(word) > rows {
+				continue
+			}
+
+			ws.Words[i] = word
 		}
 
 		w.Header().Add("Content-Type", "application/pdf")
@@ -182,8 +188,7 @@ func (ws *WordSearch) PDF(w io.Writer) error {
 		pdf.Ln(-1)
 	}
 
-	err := pdf.Output(w)
-	return err
+	return pdf.Output(w)
 }
 
 const htmlTemplate = `
