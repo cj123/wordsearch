@@ -182,8 +182,7 @@ func (ws *WordSearch) PDF(w io.Writer) error {
 		pdf.Ln(-1)
 	}
 
-	err := pdf.Output(w)
-	return err
+	return pdf.Output(w)
 }
 
 const htmlTemplate = `
